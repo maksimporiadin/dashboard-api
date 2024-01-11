@@ -9,26 +9,26 @@ import { IUserController } from './user.controller.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
-    constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
-        super(loggerService);
-        this.bindRoutes([
-            { path: '/register', method: 'post', func: this.register },
-            { path: '/login', method: 'post', func: this.login },
-            { path: '/test(_user)?', method: 'get', func: this.test }
-        ]);
-    }
+	constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
+		super(loggerService);
+		this.bindRoutes([
+			{ path: '/register', method: 'post', func: this.register },
+			{ path: '/login', method: 'post', func: this.login },
+			{ path: '/test(_user)?', method: 'get', func: this.test },
+		]);
+	}
 
-    login(req: Request, res: Response, next: NextFunction) {
-        this.ok(res, 'login');
-    }
+	login(req: Request, res: Response, next: NextFunction): void {
+		this.ok(res, 'login');
+	}
 
-    register(req: Request, res: Response, next: NextFunction) {
-        this.ok(res, 'register');
-    }
+	register(req: Request, res: Response, next: NextFunction): void {
+		this.ok(res, 'register');
+	}
 
-    test(req: Request, res: Response, next: NextFunction) {
-        this.loggerService.log('Test GET');
-        this.ok(res, 'hello!');
-        //next(new HTTPError(400, 'Data error', 'from test request')); test exeption middleware
-    }
+	test(req: Request, res: Response, next: NextFunction): void {
+		this.loggerService.log('Test GET');
+		this.ok(res, 'hello!');
+		//next(new HTTPError(400, 'Data error', 'from test request')); test exeption middleware
+	}
 }
