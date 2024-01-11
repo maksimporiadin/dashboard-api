@@ -1,7 +1,6 @@
 import { Router, Response } from "express";
 import { LoggerService } from "../logger/logger.service";
 import { ICRoute } from "./route.interface";
-export { Router } from "express";
 
 export abstract class BaseController {
     private readonly _router: Router;
