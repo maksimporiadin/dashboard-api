@@ -27,13 +27,24 @@ export class UserController extends BaseController implements IUserController {
 				func: this.register,
 				middlewares: [new ValidateMiddelware(UserRegisterDto)],
 			},
-			{ path: '/login', method: 'post', func: this.login },
+			{
+				path: '/login',
+				method: 'post',
+				func: this.login,
+				middlewares: [new ValidateMiddelware(UserLoginDto)],
+			},
 			{ path: '/test(_user)?', method: 'get', func: this.test },
 		]);
 	}
 
-	login(req: Request, res: Response, next: NextFunction): void {
-		this.ok(res, 'login');
+	async login({ body }: Request, res: Response, next: NextFunction): Promise<void> {
+		this.loggerService.log(body);
+		if (await this.userService.validateUser(body)) {
+			this.ok(res, 'login');
+		} else {
+			this.loggerService.error(`Error login`);
+			return next(new HTTPError(401, 'Wrong email or password'));
+		}
 	}
 
 	async register(
@@ -47,7 +58,7 @@ export class UserController extends BaseController implements IUserController {
 			return next(new HTTPError(422, 'This user has been already created'));
 		}
 		this.loggerService.log('UserService', newUser);
-		this.ok(res, 'register');
+		this.ok(res, { email: newUser.email, id: newUser.id });
 	}
 
 	test(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {

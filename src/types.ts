@@ -4,4 +4,7 @@ export const TYPES = {
 	UserController: Symbol.for('UserController'),
 	UserService: Symbol.for('UserService'),
 	IExeptionFilter: Symbol.for('IExeptionFilter'),
+	IConfigService: Symbol.for('IConfigService'),
+	PrismaService: Symbol.for('PrismaService'),
+	IUserRepository: Symbol.for('IUserRepository'),
 };
